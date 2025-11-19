@@ -4,9 +4,3 @@
 # Frontend env
 frontend/.env
 frontend/.env.local
-node_modules/
-frontend/node_modules/
-backend/node_modules/
-frontend/dist/
-frontend/build/
-.cache/
