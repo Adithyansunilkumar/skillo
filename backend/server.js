@@ -11,7 +11,7 @@ connectDB();
 const app = express();
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://skillopuzzles.vercel.app"],
+    origin: ["http://localhost:5173", "https://skillogames.vercel.app"],
     credentials: true,
   })
 );
