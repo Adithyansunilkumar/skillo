@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import User from "./models/user.js"; // ✅ important
 import cors from "cors";
 
 dotenv.config();
@@ -23,6 +24,21 @@ app.use("/api/user", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("hi");
+});
+
+// ==========================
+// ✅ Correct GET Leaderboard Route
+// ==========================
+app.get("/api/leaderboard", async (req, res) => {
+  try {
+    const users = await User.find({})
+      .select("username totalScore") // only send name + score
+      .sort({ totalScore: -1 }); // highest score first
+
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 const PORT = process.env.PORT || 5000;

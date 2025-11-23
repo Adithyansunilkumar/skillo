@@ -40,7 +40,7 @@ const Header = ({ scrollToSection }) => {
               <p className="text-sm font-bold text-purple-700">{totalScore}</p>
             </div>
           )}
-          <button className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-100 text-zinc-900">
+          <button className="flex cursor-pointer h-10 w-10 items-center justify-center rounded-full bg-purple-100 text-zinc-900">
             <img
               onClick={() => isLoggedIn && setOpen(!open)}
               src={account}

@@ -1,0 +1,87 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
+export default function SplashScreen() {
+  const navigate = useNavigate()
+  return (
+    <div className="relative flex sm:h-[720px] h-svh w-full flex-col overflow-x-hidden bg-purple-50 font-sans">
+      {/* Dot grid background */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 1px 1px, rgba(0,0,0,0.10) 1px, transparent 0)",
+          backgroundSize: "20px 20px",
+        }}
+      ></div>
+
+      {/* Main container */}
+      <div className="relative z-10 flex sm:h-[700px] h-svh flex-col items-center justify-between p-4">
+        <div className="flex w-full max-w-lg flex-col items-center">
+          {/* Header Card */}
+          <div className="mt-8 w-full rounded-xl border border-white/80 bg-white/40 px-4 pt-16 pb-8 shadow-sm">
+            <h1 className="text-center text-4xl font-bold tracking-tight text-black">
+              Skillo Games
+            </h1>
+            <p className="pt-2 text-center text-base text-gray-700">
+              Welcome to Skillo — a skill-based gaming platform where you
+              compete in fast, fun mini-games to earn points, climb the
+              leaderboard, and win rewards. Stay sharp and maximize your score
+              within the event window to rank higher.
+            </p>
+          </div>
+
+          {/* Feature Cards */}
+          <div className="mt-6 w-full space-y-4">
+            <div className="flex items-center gap-4 rounded-xl border border-white/70 bg-white/60 px-4 py-3 shadow-sm">
+              <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-purple-100 text-purple-600">
+                <span className="material-symbols-outlined text-2xl">
+                  emoji_events
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <p className="text-base font-medium text-black">Earn Points</p>
+                <p className="text-sm text-gray-700">
+                  Score points by completing each mini-game with speed and
+                  precision.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 rounded-xl border border-white/70 bg-white/60 px-4 py-3 shadow-sm backdrop-blur-lg">
+              <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-purple-100 text-purple-600">
+                <span className="material-symbols-outlined text-2xl">
+                  leaderboard
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <p className="text-base font-medium text-black">
+                  Live Leaderboard
+                </p>
+                <p className="text-sm text-gray-700">
+                  Rankings update instantly and freeze when the event ends.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Info Text */}
+          <div className="mt-6 w-full rounded-xl border border-white/60 bg-white/40 p-4 shadow-sm backdrop-blur-lg">
+            <p className="text-center text-sm leading-relaxed text-gray-700">
+              Consistency matters more than one perfect run. Play multiple
+              rounds to build your total score and climb the leaderboard
+              steadily.
+            </p>
+          </div>
+        </div>
+
+        {/* Button */}
+        <div className="mt-auto mb-8 w-full max-w-lg pt-8">
+          <button onClick={()=>navigate("/home")} className="flex h-12 w-full items-center justify-center rounded-lg bg-purple-600 text-base font-bold text-white shadow-lg transition hover:bg-purple-700">
+            Get Started
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

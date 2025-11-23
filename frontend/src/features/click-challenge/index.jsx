@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "../../components/Header";
 
-
 import GameGrid from "./components/GameGrid";
 import GameOverModal from "./components/GameOverModal";
 import TimerSection from "./components/TimerSection";
@@ -20,7 +19,7 @@ export default function ClickChallenge({ onGoHome }) {
     handleTileClick,
     gridCells,
   } = useClickChallengeLogic({
-    initialTime: 10,
+    initialTime: 30,
     gridCells: 18,
     tileLifetimeMs: 2000,
     spawnIntervalMs: 400,
