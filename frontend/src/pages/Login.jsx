@@ -23,7 +23,7 @@ export default function Login() {
       setSuccess("Logged in successfully!");
       setError("");
       console.log("Success:", res);
-      navigate("/");
+      navigate("/home");
     } catch (err) {
       setError(err.message);
       setSuccess("");

@@ -27,7 +27,7 @@ export default function Register() {
       setSuccess("Account created successfully!");
       setError("");
       console.log("Success:", res);
-      setTimeout(() => navigate("/"), 800);
+      setTimeout(() => navigate("/home"), 800);
     } catch (err) {
       setError(err.message);
       setSuccess("");
