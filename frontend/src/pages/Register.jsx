@@ -3,40 +3,75 @@ import { registerUser } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+  const [generatedUsername, setGeneratedUsername] = useState("");
 
   const navigate = useNavigate();
 
-  async function handleSubmit(e) {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  function createUsername(email) {
+    const prefix = email.split("@")[0];
+    return prefix.replace(/[^a-zA-Z0-9_]/g, "_").substring(0, 16);
+  }
+
+  function validateInputs() {
+    if (!email.trim()) return "Enter email";
+    if (!emailRegex.test(email)) return "Enter a valid email";
+
+    if (!password.trim()) return "Enter password";
+    if (password.length < 6) return "Password must be at least 6 characters";
+
+    if (password !== confirmPassword) return "Passwords do not match";
+
+    return null;
+  }
+
+  function handleSubmit(e) {
     e.preventDefault();
 
-    if (!username.trim()) return setError("Enter username");
-    if (!email.trim()) return setError("Enter email");
-    if (!password.trim()) return setError("Enter password");
-    if (password !== confirmPassword) return setError("Passwords do not match");
+    const validationError = validateInputs();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
 
+    const username = createUsername(email);
+
+    setGeneratedUsername(username);
+    setShowConfirmPopup(true);
+  }
+
+  async function confirmRegistration() {
     try {
-      const res = await registerUser({ username, email, password });
+      const res = await registerUser({
+        username: generatedUsername,
+        email,
+        password,
+      });
+
       localStorage.setItem("user", JSON.stringify(res.user));
       localStorage.setItem("token", res.token);
+
       setSuccess("Account created successfully!");
       setError("");
-      console.log("Success:", res);
+      setShowConfirmPopup(false);
+
       setTimeout(() => navigate("/home"), 800);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Registration failed");
       setSuccess("");
-      console.log("Error:", err.message);
+      setShowConfirmPopup(false);
     }
   }
 
   return (
-    <div className="font-display flex min-h-screen items-center justify-center bg-[#E9E3FF] p-6">
+    <div className="font-display relative flex min-h-screen items-center justify-center bg-[#E9E3FF] p-6">
       <div className="w-full max-w-md rounded-xl bg-white/90 p-8 shadow-md backdrop-blur-sm">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-[#0e0d1c]">
@@ -51,20 +86,6 @@ export default function Register() {
         )}
 
         <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">
-          <label className="flex flex-col">
-            <p className="pb-1 font-medium text-[#0e0d1c]">Username</p>
-            <input
-              type="text"
-              placeholder="Enter your username"
-              value={username}
-              onChange={(e) => {
-                setUsername(e.target.value);
-                setError("");
-              }}
-              className="h-14 rounded-xl border border-gray-300 bg-white p-4 outline-none focus:ring-1 focus:ring-purple-700/70"
-            />
-          </label>
-
           <label className="flex flex-col">
             <p className="pb-1 font-medium text-[#0e0d1c]">Email</p>
             <input
@@ -125,6 +146,38 @@ export default function Register() {
           </a>
         </p>
       </div>
+
+      {/* Confirmation Popup */}
+      {showConfirmPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/60">
+          <div className="w-80 rounded-xl bg-white p-6 text-center shadow-lg">
+            <h2 className="mb-4 text-xl font-semibold">Confirm Username</h2>
+            <p className="mb-6 text-gray-700">
+              Your username will be:
+              <br />
+              <span className="text-lg font-bold text-purple-700">
+                {generatedUsername}
+              </span>
+            </p>
+
+            <div className="flex justify-between gap-3">
+              <button
+                onClick={() => setShowConfirmPopup(false)}
+                className="h-12 w-1/2 rounded-xl border border-gray-300 bg-gray-100 font-medium"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={confirmRegistration}
+                className="h-12 w-1/2 rounded-xl bg-purple-700 font-bold text-white"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
