@@ -21,8 +21,8 @@ export default function ClickChallenge({ onGoHome }) {
   } = useClickChallengeLogic({
     initialTime: 30,
     gridCells: 18,
-    tileLifetimeMs: 2000,
-    spawnIntervalMs: 400,
+    tileLifetimeMs: 1000,
+    spawnIntervalMs: 250,
     maxTiles: 4,
   });
 

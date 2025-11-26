@@ -5,6 +5,7 @@ import {
   saveLocalScrambledScore,
   saveScrambledScoreToBackend,
 } from "../services/scoreService";
+import { useNavigate } from "react-router-dom";
 
 export default function ScrambledWordsGame() {
   const [currentWord, setCurrentWord] = useState("");
@@ -17,6 +18,7 @@ export default function ScrambledWordsGame() {
   const [message, setMessage] = useState("");
   const [showWin, setShowWin] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const navigate = useNavigate()
 
   // ------------------------------------------
   // Initialize a new word
@@ -113,16 +115,6 @@ export default function ScrambledWordsGame() {
     setUsedIndexes([]);
     setMessage("");
   };
-
-  // ------------------------------------------
-  // Shuffle
-  // ------------------------------------------
-  const shuffleLetters = () => {
-    setScrambled(shuffleArray([...scrambled]));
-    setSlots(Array(currentWord.length).fill(""));
-    setUsedIndexes([]);
-  };
-
   // ------------------------------------------
   // Submit
   // ------------------------------------------
@@ -351,7 +343,7 @@ export default function ScrambledWordsGame() {
               </button>
 
               <button
-                onClick={() => (window.location.href = "/")}
+                onClick={() => navigate("/home")}
                 className="h-12 w-full rounded-full bg-[#d9cab3] font-semibold text-[#8f6d3b] transition hover:opacity-90 active:scale-95"
               >
                 Go Home

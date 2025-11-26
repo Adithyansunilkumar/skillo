@@ -16,14 +16,14 @@ const App = () => {
   return (
     <div className="bg-background-light font-display h-svh text-[#140d1b] select-none">
       <Routes>
-        <Route path="/" element={<SplashScreen/>}/>
+        <Route path="/" element={<SplashScreen />} />
         <Route path="/home" element={<Home />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route
           path="/click-challenge"
           element={
             <ProtectedRoute>
-            <ClickChallenge onGoHome={() => navigate("/home")} />
+              <ClickChallenge onGoHome={() => navigate("/home")} />
             </ProtectedRoute>
           }
         />
@@ -31,7 +31,7 @@ const App = () => {
           path="/memory-match"
           element={
             <ProtectedRoute>
-            <MemoryMatch onGoHome={() => navigate("/home")} />
+              <MemoryMatch onGoHome={() => navigate("/home")} />
             </ProtectedRoute>
           }
         />
@@ -39,7 +39,7 @@ const App = () => {
           path="/math-puzzle-race"
           element={
             <ProtectedRoute>
-            <MathPuzzleRace onGoHome={() => navigate("/home")} />
+              <MathPuzzleRace onGoHome={() => navigate("/home")} />
             </ProtectedRoute>
           }
         />
@@ -47,7 +47,7 @@ const App = () => {
           path="/15-puzzle"
           element={
             <ProtectedRoute>
-            <FifteenPuzzle onGoHome={() => navigate("/home")} />
+              <FifteenPuzzle onGoHome={() => navigate("/home")} />
             </ProtectedRoute>
           }
         />
@@ -55,7 +55,7 @@ const App = () => {
           path="/scrambled-words"
           element={
             <ProtectedRoute>
-            <ScrambledWordsGame onGoHome={() => navigate("/home")} />
+              <ScrambledWordsGame onGoHome={() => navigate("/home")} />
             </ProtectedRoute>
           }
         />

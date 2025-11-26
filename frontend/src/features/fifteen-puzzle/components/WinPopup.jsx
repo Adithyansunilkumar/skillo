@@ -57,8 +57,8 @@ export default function WinPopup() {
           </button>
 
           <button
-            onClick={() => navigate("/")}
-            className="w-full max-w-[240px] rounded-full bg-[#d3e9f6] text-[#00588a] py-3 text-lg font-semibold shadow-md hover:bg-[#c2ddee] active:scale-95 transition"
+            onClick={() => navigate("/home")}
+            className="w-full max-w-60 rounded-full bg-[#d3e9f6] text-[#00588a] py-3 text-lg font-semibold shadow-md hover:bg-[#c2ddee] active:scale-95 transition"
           >
             Go Home
           </button>

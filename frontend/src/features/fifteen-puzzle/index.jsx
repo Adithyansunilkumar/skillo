@@ -19,7 +19,7 @@ export default function FifteenPuzzle() {
             </h1>
 
             <p className="flex items-center justify-center gap-2 pt-1 text-base leading-normal text-[#00588a]/80">
-              Slide the tiles to arrange them in order.
+              Swipe the board to arrange them in order.
               {/* Inline Minimal Info Button */}
               <button
                 onClick={() =>

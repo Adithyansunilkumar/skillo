@@ -30,7 +30,7 @@ const GameOverModal = ({ time, moves, score, onRestart }) => {
 
         {/* Go Home Button */}
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
           className="mt-3 w-full h-12 bg-gray-50 text-[#428a79] rounded-full font-bold shadow-md hover:bg-gray-300"
         >
           Go Home

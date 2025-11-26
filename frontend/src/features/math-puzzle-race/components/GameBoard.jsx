@@ -4,6 +4,7 @@ import AnswerInput from "./AnswerInput";
 import Controls from "./Controls";
 import GameOverModal from "./GameOverModal";
 import { useScoreStore } from "../../../store/scoreStore";
+import { useNavigate } from "react-router-dom";
 
 const MathPuzzleRace = () => {
   const [puzzle, setPuzzle] = useState(generatePuzzle(0));
@@ -14,6 +15,7 @@ const MathPuzzleRace = () => {
   const [hasStarted, setHasStarted] = useState(false);
   const addToTotalScore = useScoreStore((state) => state.addToTotalScore);
   const syncScoreToBackend = useScoreStore((state) => state.syncScoreToBackend);
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (gameOver) return;
@@ -35,22 +37,36 @@ const MathPuzzleRace = () => {
   const handleAnswerSubmit = (userAnswer) => {
     if (Number(userAnswer) === puzzle.answer) {
       setResultMessage("Correct!");
+
       setScore((prev) => {
         const updated = prev + 10;
 
-        // Local UI update (fast)
+        // Local UI score update
         addToTotalScore(10);
 
-        // Sync to backend (same as memory match)
+        // Backend sync
         syncScoreToBackend(10);
 
         return updated;
       });
 
+      // Move to next question instantly
       setPuzzle(generatePuzzle(score + 10));
+
+      // Clear message after short delay
+      setTimeout(() => {
+        setResultMessage("");
+      }, 600); // adjust timing if needed
     } else {
       setResultMessage("Wrong!");
-      setScore((prev) => (prev - 10 < 0 ? 0 : prev - 10));
+
+      // Move to next question
+      setPuzzle(generatePuzzle(score));
+
+      // Clear message quickly
+      setTimeout(() => {
+        setResultMessage("");
+      }, 600);
     }
   };
 
@@ -73,7 +89,7 @@ const MathPuzzleRace = () => {
   };
 
   return (
-    <div className="flex items-center w-full justify-center  px-4 py-8">
+    <div className="flex w-full items-center justify-center px-4 py-8">
       <div className="flex w-full max-w-sm flex-col items-center rounded-3xl border border-red-50 bg-[#fffdfd] p-6 shadow-md md:max-w-md md:p-8">
         {/* Title */}
         <h1 className="mb-1 text-3xl font-bold text-[#b95976]">
@@ -112,7 +128,7 @@ const MathPuzzleRace = () => {
               onRestart={startGame}
               onHome={() => {
                 // Navigate to your home page
-                window.location.href = "/";
+                navigate("/home")
                 // or use react-router: navigate("/")
               }}
             />
