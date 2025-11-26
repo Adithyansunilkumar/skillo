@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function SplashScreen() {
   const navigate = useNavigate()
   return (
-    <div className="relative flex sm:h-[720px] h-svh w-full flex-col overflow-x-hidden bg-purple-50 font-sans">
+    <div className="relative flex sm:h-[820px] h-svh w-full flex-col overflow-x-hidden bg-purple-50 font-sans">
       {/* Dot grid background */}
       <div
         className="absolute inset-0"
@@ -19,7 +19,7 @@ export default function SplashScreen() {
       <div className="relative z-10 flex sm:h-[700px] h-svh flex-col items-center justify-between p-4">
         <div className="flex w-full max-w-lg flex-col items-center">
           {/* Header Card */}
-          <div className="mt-8 w-full rounded-xl border border-white/80 bg-white/40 px-4 pt-16 pb-8 shadow-sm">
+          <div className="flex flex-col justify-center gap-7 items-center mt-8 h-72 w-full rounded-xl border border-white/80 bg-white/40 px-4 pt-0 pb-0 shadow-sm">
             <h1 className="text-center text-4xl font-bold tracking-tight text-black">
               Skillo Games
             </h1>

@@ -13,7 +13,7 @@ export default function Register() {
 
   const navigate = useNavigate();
 
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
   function createUsername(email) {
     const prefix = email.split("@")[0];
@@ -23,6 +23,8 @@ export default function Register() {
   function validateInputs() {
     if (!email.trim()) return "Enter email";
     if (!emailRegex.test(email)) return "Enter a valid email";
+    if (!email.endsWith("@gmail.com"))
+      return "Only Gmail addresses are allowed";
 
     if (!password.trim()) return "Enter password";
     if (password.length < 6) return "Password must be at least 6 characters";

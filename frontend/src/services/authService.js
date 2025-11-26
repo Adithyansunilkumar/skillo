@@ -1,5 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
+// REGISTER
 export async function registerUser(data) {
   const res = await fetch(`${API_URL}/api/auth/register`, {
     method: "POST",
@@ -13,6 +14,7 @@ export async function registerUser(data) {
   return res.json();
 }
 
+// LOGIN
 export async function loginUser(data) {
   const res = await fetch(`${API_URL}/api/auth/login`, {
     method: "POST",

@@ -11,6 +11,7 @@ import FifteenPuzzle from "./features/fifteen-puzzle";
 import ScrambledWordsGame from "./features/scrambled-words/components/ScrambledWordsGame";
 import Leaderboard from "./pages/Leaderboard";
 import SplashScreen from "./pages/SplashScreen";
+
 const App = () => {
   const navigate = useNavigate();
   return (
