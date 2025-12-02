@@ -13,9 +13,16 @@ const MathPuzzleRace = () => {
   const [gameOver, setGameOver] = useState(true);
   const [resultMessage, setResultMessage] = useState("");
   const [hasStarted, setHasStarted] = useState(false);
+
+  const [showInstructions, setShowInstructions] = useState(false); // ⬅ NEW
+
   const addToTotalScore = useScoreStore((state) => state.addToTotalScore);
   const syncScoreToBackend = useScoreStore((state) => state.syncScoreToBackend);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setShowInstructions(true);
+  }, []);
 
   useEffect(() => {
     if (gameOver) return;
@@ -40,38 +47,23 @@ const MathPuzzleRace = () => {
 
       setScore((prev) => {
         const updated = prev + 10;
-
-        // Local UI score update
         addToTotalScore(10);
-
-        // Backend sync
         syncScoreToBackend(10);
-
         return updated;
       });
 
-      // Move to next question instantly
       setPuzzle(generatePuzzle(score + 10));
 
-      // Clear message after short delay
-      setTimeout(() => {
-        setResultMessage("");
-      }, 600); // adjust timing if needed
+      setTimeout(() => setResultMessage(""), 600);
     } else {
       setResultMessage("Wrong!");
-
-      // Move to next question
       setPuzzle(generatePuzzle(score));
-
-      // Clear message quickly
-      setTimeout(() => {
-        setResultMessage("");
-      }, 600);
+      setTimeout(() => setResultMessage(""), 600);
     }
   };
 
   const startGame = () => {
-    setHasStarted(true); // hide Start button
+    setHasStarted(true);
     setTimeLeft(30);
     setScore(0);
     setResultMessage("");
@@ -90,14 +82,20 @@ const MathPuzzleRace = () => {
 
   return (
     <div className="flex w-full items-center justify-center px-4 py-8">
-      <div className="flex w-full max-w-sm flex-col items-center rounded-3xl border border-red-50 bg-[#fffdfd] p-6 shadow-md md:max-w-md md:p-8">
-        {/* Title */}
+      <div className="relative flex w-full max-w-sm flex-col items-center rounded-3xl border border-red-50 bg-[#fffdfd] p-6 shadow-md md:max-w-md md:p-8">
+        {/* Small Instructions Button */}
+        <button
+          onClick={() => setShowInstructions(true)}
+          className="absolute top-8 right-6 h-6 w-6 rounded-full bg-[#fde6ec] font-bold text-[#b95976]"
+        >
+          i
+        </button>
+
         <h1 className="mb-1 text-3xl font-bold text-[#b95976]">
           Math Puzzle Race
         </h1>
         <p className="mb-6 text-sm text-[#b95976]">Solve math problems fast</p>
 
-        {/* Stats */}
         <div className="mb-6 flex w-full gap-4">
           <div className="flex-1 rounded-xl bg-[#fde6ec] p-4 text-center shadow-xs">
             <p className="text-sm font-medium text-[#b95976]">Timer</p>
@@ -110,14 +108,12 @@ const MathPuzzleRace = () => {
           </div>
         </div>
 
-        {/* Question */}
         <div className="mb-6 flex w-full items-center justify-center rounded-2xl bg-[#fde6ec] p-10 shadow-xs">
           <p className="text-4xl font-extrabold text-[#b95976]">
             {puzzle.question}
           </p>
         </div>
 
-        {/* Options */}
         {!gameOver ? (
           <AnswerInput options={puzzle.options} onSubmit={handleAnswerSubmit} />
         ) : (
@@ -126,11 +122,7 @@ const MathPuzzleRace = () => {
             <GameOverModal
               score={score}
               onRestart={startGame}
-              onHome={() => {
-                // Navigate to your home page
-                navigate("/home")
-                // or use react-router: navigate("/")
-              }}
+              onHome={() => navigate("/home")}
             />
           )
         )}
@@ -139,13 +131,35 @@ const MathPuzzleRace = () => {
           <p className="mt-2 font-bold text-[#b95976]">{resultMessage}</p>
         )}
 
-        {/* Controls */}
         <Controls
           onStart={startGame}
           onReset={resetGame}
           hasStarted={hasStarted}
         />
       </div>
+
+      {/* Instructions Modal */}
+      {showInstructions && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="w-80 rounded-2xl bg-white p-6 shadow-lg">
+            <h2 className="mb-2 text-xl font-bold text-[#b95976]">
+              How to Play
+            </h2>
+            <p className="mb-4 text-sm text-[#b95976]">
+              Solve the math problem shown on the screen. Select the correct
+              answer quickly. Each correct answer gives +10 points. You have 30
+              seconds. Try to get the highest score possible.
+            </p>
+
+            <button
+              onClick={() => setShowInstructions(false)}
+              className="mt-4 w-full rounded-lg bg-[#b95976] py-2 font-semibold text-white shadow"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

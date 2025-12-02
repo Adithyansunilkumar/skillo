@@ -51,6 +51,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const [topPlayers, setTopPlayers] = useState([]);
+  const [allPlayers, setAllPlayers] = useState([]);
 
   useEffect(() => {
     const loadTopPlayers = async () => {
@@ -58,12 +59,10 @@ const Home = () => {
         const res = await fetch(`${API_URL}/api/leaderboard`);
         const data = await res.json();
 
-        // Sort highest first and keep only Top 3
-        const top3 = data
-          .sort((a, b) => b.totalScore - a.totalScore)
-          .slice(0, 3);
+        const sorted = data.sort((a, b) => b.totalScore - a.totalScore);
 
-        setTopPlayers(top3);
+        setAllPlayers(sorted); // keep full list
+        setTopPlayers(sorted.slice(0, 3)); // derive top 3
       } catch (error) {
         console.error("Failed to fetch top players:", error);
       }
@@ -107,54 +106,64 @@ const Home = () => {
         </div>
 
         {/* ============================
-      TOP PLAYERS LIST
+    TOP PLAYERS SECTION
 ============================ */}
+
         <div className="space-y-4">
           <h2 className="text-xl font-bold text-zinc-900">Top Players</h2>
 
-          <div className="flex flex-col gap-3">
-            {topPlayers.map((player, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white px-6 py-4 shadow-sm"
-              >
-                {/* LEFT - username */}
-                <div className="flex items-center gap-3">
-                  {/* Subtle rank indicator */}
-                  <span
-                    className={`text-lg font-bold ${
-                      index === 0
-                        ? "text-purple-700"
-                        : index === 1
-                          ? "text-sky-600"
-                          : "text-amber-700"
-                    }`}
+          {allPlayers.length === 0 ? (
+            <div className="flex items-center justify-center rounded-lg border border-zinc-200 bg-white py-6 text-zinc-500">
+              No players yet.
+            </div>
+          ) : (
+            <>
+              <div className="flex flex-col gap-3">
+                {topPlayers.map((player, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white px-6 py-4 shadow-sm"
                   >
-                    #{index + 1}
-                  </span>
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`text-lg font-bold ${
+                          index === 0
+                            ? "text-purple-700"
+                            : index === 1
+                              ? "text-sky-600"
+                              : "text-amber-700"
+                        }`}
+                      >
+                        #{index + 1}
+                      </span>
 
-                  <p className="font-medium text-zinc-900">{player.username}</p>
-                </div>
+                      <p className="font-medium text-zinc-900">
+                        {player.username}
+                      </p>
+                    </div>
 
-                {/* RIGHT - score */}
-                <div className="flex items-center gap-1.5 rounded-full bg-purple-700/10 px-4 py-2">
-                  <img src={stars} alt="star" className="w-5" />
-                  <p className="text-sm font-bold text-purple-700">
-                    {player.totalScore.toLocaleString()}
-                  </p>
-                </div>
+                    <div className="flex items-center gap-1.5 rounded-full bg-purple-700/10 px-4 py-2">
+                      <img src={stars} alt="star" className="w-5" />
+                      <p className="text-sm font-bold text-purple-700">
+                        {player.totalScore.toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
 
-        <div className="mt-8 flex justify-center">
-          <button
-            onClick={() => navigate("/leaderboard")}
-            className="rounded-lg bg-purple-600 px-6 py-3 font-medium text-white shadow-sm"
-          >
-            View more
-          </button>
+              {allPlayers.length > 3 && (
+                <div className="mt-4 flex justify-center">
+                  <button
+                    onClick={() => navigate("/leaderboard")}
+                    className="rounded-lg bg-purple-600 px-6 py-3 font-medium text-white shadow-sm"
+                  >
+                    View more
+                  </button>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </main>
     </div>

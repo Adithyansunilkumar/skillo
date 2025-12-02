@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
 
 import GameGrid from "./components/GameGrid";
@@ -7,8 +7,9 @@ import TimerSection from "./components/TimerSection";
 import { useScoreStore } from "../../store/scoreStore";
 import useClickChallengeLogic from "./hooks/useClickChallengeLogic";
 
-
 export default function ClickChallenge({ onGoHome }) {
+  const [showInfo, setShowInfo] = useState(false);
+
   const {
     timeLeft,
     score,
@@ -28,9 +29,12 @@ export default function ClickChallenge({ onGoHome }) {
 
   const fetchTotalScore = useScoreStore((s) => s.fetchTotalScore);
 
-  // --- Navigation handler ---
+  useEffect(() => {
+    setShowInfo(true);
+  }, []);
+
   const handleGoHome = () => {
-    fetchTotalScore(); // Sync latest score from backend
+    fetchTotalScore();
     if (typeof onGoHome === "function") onGoHome();
   };
 
@@ -43,32 +47,37 @@ export default function ClickChallenge({ onGoHome }) {
       }}
     >
       <Header />
-
-      {/* --- Main Game Card --- */}
       <main className="w-full max-w-4xl">
         <div className="rounded-2xl bg-white p-6 shadow-lg">
-          {/* Title + Timer */}
           <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-            <div>
+            <div className="relative">
               <h2 className="mb-2 text-2xl font-extrabold text-purple-950">
                 Click Challenge
               </h2>
-              <p className="text-sm text-gray-500">
-                Test your speed and accuracy.
-              </p>
+
+              <div className="flex items-center gap-2">
+                <p className="text-sm text-gray-500">
+                  Test your speed and accuracy.
+                </p>
+
+                {/* Small Info Icon */}
+                <button
+                  onClick={() => setShowInfo(true)}
+                  className="flex h-5 w-5 items-center justify-center rounded-full bg-purple-200 text-[10px] font-bold text-purple-800 shadow-sm transition hover:bg-purple-300 active:scale-95"
+                >
+                  i
+                </button>
+              </div>
             </div>
 
             <TimerSection
               timeLeft={timeLeft}
               score={score}
               gameActive={gameActive}
-              onTogglePlay={() =>
-                gameActive ? stopGame() : startGame()
-              }
+              onTogglePlay={() => (gameActive ? stopGame() : startGame())}
             />
           </div>
 
-          {/* --- Game Grid --- */}
           <GameGrid
             gridCells={gridCells}
             tiles={tiles}
@@ -77,7 +86,7 @@ export default function ClickChallenge({ onGoHome }) {
         </div>
       </main>
 
-      {/* --- Game Over Modal --- */}
+      {/* Game Over Modal */}
       {!gameActive && timeLeft === 0 && (
         <GameOverModal
           score={score}
@@ -90,7 +99,35 @@ export default function ClickChallenge({ onGoHome }) {
         Click the purple tiles as they appear — each tile gives +1 point.
       </div>
 
-      {/* Local animation fallback */}
+      {/* --------------------------- */}
+      {/*       INFO POPUP           */}
+      {/* --------------------------- */}
+      {showInfo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-xs space-y-4 rounded-2xl bg-white p-6 text-center text-purple-900 shadow-xl">
+            <h2 className="text-lg font-bold">How to Play</h2>
+
+            <p className="text-sm leading-relaxed text-purple-900/80">
+              Tap the purple tiles as soon as they appear. Each correct tap
+              gives <strong>+1 point</strong>. Tiles disappear quickly, so be
+              fast and accurate. Your goal is to score as much as possible in{" "}
+              <strong>30 seconds</strong>.
+            </p>
+
+            <p className="mt-2 text-sm font-semibold text-purple-900">
+              Be quick — tiles last only 1 second!
+            </p>
+
+            <button
+              onClick={() => setShowInfo(false)}
+              className="mt-4 h-10 w-full rounded-full bg-purple-700 font-bold text-white transition hover:opacity-90 active:scale-95"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
+
       <style>{`
         @keyframes fadeInScale {
           0% { opacity: 0; transform: scale(0.85); }

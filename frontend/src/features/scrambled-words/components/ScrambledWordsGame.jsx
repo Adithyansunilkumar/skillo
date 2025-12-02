@@ -18,7 +18,7 @@ export default function ScrambledWordsGame() {
   const [message, setMessage] = useState("");
   const [showWin, setShowWin] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // ------------------------------------------
   // Initialize a new word
@@ -44,6 +44,11 @@ export default function ScrambledWordsGame() {
   // Load first word
   useEffect(() => {
     initNewWord();
+  }, []);
+
+  // Auto-open instructions
+  useEffect(() => {
+    setShowInfo(true);
   }, []);
 
   // ------------------------------------------
@@ -320,7 +325,7 @@ export default function ScrambledWordsGame() {
         </div>
       </div>
       {showWin && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4 backdrop-blur-md transition-all">
           <div className="w-full max-w-xs space-y-4 rounded-2xl bg-white p-6 text-center shadow-xl">
             <h2 className="text-xl font-bold text-[#8f6d3b]">Time’s Up!</h2>
 
@@ -353,7 +358,7 @@ export default function ScrambledWordsGame() {
         </div>
       )}
       {showInfo && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4 backdrop-blur-md transition-all">
           <div className="w-full max-w-xs space-y-4 rounded-2xl bg-white p-6 text-center text-[#8f6d3b] shadow-xl">
             <h2 className="text-lg font-bold">How to Play</h2>
 

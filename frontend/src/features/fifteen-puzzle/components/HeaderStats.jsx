@@ -6,12 +6,16 @@ export default function HeaderStats() {
   const [openInstructions, setOpenInstructions] = useState(false);
 
   useEffect(() => {
+    setOpenInstructions(true); // Auto-open on entering game page
+  
     const openListener = () => setOpenInstructions(true);
-
+  
     document.addEventListener("open-instructions", openListener);
-    return () =>
+    return () => {
       document.removeEventListener("open-instructions", openListener);
+    };
   }, []);
+  
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Card from "./Card";
 import GameOverModal from "./GameOverModal";
 import useMemoryMatchLogic from "../hooks/useMemoryMatchLogic";
@@ -29,6 +29,11 @@ const GameBoard = () => {
   };
 
   const [showInfo, setShowInfo] = useState(false);
+
+  useEffect(() => {
+    // Open the popup automatically when the game loads
+    setShowInfo(true);
+  }, []);
 
   return (
     <>
