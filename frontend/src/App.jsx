@@ -23,41 +23,41 @@ const App = () => {
         <Route
           path="/click-challenge"
           element={
-            //<ProtectedRoute>
+            <ProtectedRoute>
               <ClickChallenge onGoHome={() => navigate("/home")} />
-            //</ProtectedRoute>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/memory-match"
           element={
-            //<ProtectedRoute>
+            <ProtectedRoute>
               <MemoryMatch onGoHome={() => navigate("/home")} />
-            //</ProtectedRoute>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/math-puzzle-race"
           element={
-            //<ProtectedRoute>
+            <ProtectedRoute>
               <MathPuzzleRace onGoHome={() => navigate("/home")} />
-            //</ProtectedRoute>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/15-puzzle"
           element={
-            //<ProtectedRoute>
+            <ProtectedRoute>
               <FifteenPuzzle onGoHome={() => navigate("/home")} />
-            //</ProtectedRoute>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/scrambled-words"
           element={
-            //<ProtectedRoute>
+            <ProtectedRoute>
               <ScrambledWordsGame onGoHome={() => navigate("/home")} />
-            //</ProtectedRoute>
+            </ProtectedRoute>
           }
         />
         <Route path="/register" element={<Register />} />
