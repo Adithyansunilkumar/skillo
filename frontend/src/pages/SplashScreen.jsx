@@ -1,33 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import DisclaimerPopup from "../components/DisclaimerPopup";
 
 export default function SplashScreen() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [openDisclaimer, setOpenDisclaimer] = useState(false);
+
+  useEffect(() => {
+    setOpenDisclaimer(true); // AUTO POPUP
+  }, []);
+
   return (
-    <div className="relative flex sm:h-[820px] h-svh w-full flex-col overflow-x-hidden bg-purple-50 font-sans">
-      {/* Dot grid background */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, rgba(0,0,0,0.10) 1px, transparent 0)",
-          backgroundSize: "20px 20px",
-        }}
-      ></div>
+    <div className="relative flex h-svh w-full flex-col overflow-x-hidden bg-purple-50 font-sans sm:h-[820px]">
+      {/* Modal */}
+      <DisclaimerPopup
+        open={openDisclaimer}
+        onClose={() => setOpenDisclaimer(false)}
+      />
 
       {/* Main container */}
-      <div className="relative z-10 flex sm:h-[700px] h-svh flex-col items-center justify-between p-4">
+      <div className="relative z-10 flex h-svh flex-col items-center justify-between p-4 sm:h-[700px]">
         <div className="flex w-full max-w-lg flex-col items-center">
-          {/* Header Card */}
-          <div className="flex flex-col justify-center gap-7 items-center mt-8 h-72 w-full rounded-xl border border-white/80 bg-white/40 px-4 pt-0 pb-0 shadow-sm">
+          {/* Header */}
+          <div className="mt-8 flex h-72 w-full flex-col items-center justify-center gap-7 rounded-xl border border-white/80 bg-white/40 px-4 pb-0 shadow-sm">
             <h1 className="text-center text-4xl font-bold tracking-tight text-black">
               Skillo Games
             </h1>
             <p className="pt-2 text-center text-base text-gray-700">
               Welcome to Skillo — a skill-based gaming platform where you
               compete in fast, fun mini-games to earn points, climb the
-              leaderboard, and win rewards. Stay sharp and maximize your score
-              within the event window to rank higher.
+              leaderboard, and win rewards.
             </p>
           </div>
 
@@ -65,7 +67,7 @@ export default function SplashScreen() {
             </div>
           </div>
 
-          {/* Info Text */}
+          {/* Info box */}
           <div className="mt-6 w-full rounded-xl border border-white/60 bg-white/40 p-4 shadow-sm backdrop-blur-lg">
             <p className="text-center text-sm leading-relaxed text-gray-700">
               Consistency matters more than one perfect run. Play multiple
@@ -73,11 +75,22 @@ export default function SplashScreen() {
               steadily.
             </p>
           </div>
+
+          {/* RULES Button */}
+          <button
+            onClick={() => setOpenDisclaimer(true)}
+            className="mt-4 font-medium text-purple-700 underline"
+          >
+            View Rules
+          </button>
         </div>
 
-        {/* Button */}
+        {/* Get Started button */}
         <div className="mt-auto mb-8 w-full max-w-lg pt-8">
-          <button onClick={()=>navigate("/home")} className="flex h-12 w-full items-center justify-center rounded-lg bg-purple-600 text-base font-bold text-white shadow-lg transition hover:bg-purple-700">
+          <button
+            onClick={() => navigate("/home")}
+            className="flex h-12 w-full items-center justify-center rounded-lg bg-purple-600 text-base font-bold text-white shadow-lg transition hover:bg-purple-700"
+          >
             Get Started
           </button>
         </div>

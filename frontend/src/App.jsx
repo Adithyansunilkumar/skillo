@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import AdminResetPage from "./pages/AdminResetPage";
 import ClickChallenge from "./features/click-challenge/index";
 import MemoryMatch from "./features/memory-match/index";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -17,6 +18,7 @@ const App = () => {
   return (
     <div className="bg-background-light font-display h-svh text-[#140d1b] select-none">
       <Routes>
+        <Route path="/admin/reset-scores" element={<AdminResetPage />} />
         <Route path="/" element={<SplashScreen />} />
         <Route path="/home" element={<Home />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
