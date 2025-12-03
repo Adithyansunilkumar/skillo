@@ -9,6 +9,7 @@ const generateToken = (id) => {
 
 const router = express.Router();
 
+// REGISTER
 router.post("/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -17,6 +18,7 @@ router.post("/register", async (req, res) => {
     if (exists) {
       return res.status(400).json({ message: "Email already registered" });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await User.create({
@@ -25,9 +27,14 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
     });
 
+    // Generate and store session token
+    const token = generateToken(newUser._id);
+    newUser.currentSessionToken = token;
+    await newUser.save();
+
     res.status(201).json({
       message: "User registered successfully",
-      token: generateToken(newUser._id),
+      token,
       user: {
         id: newUser._id,
         username: newUser.username,
@@ -40,6 +47,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
+// LOGIN (Single device enforced)
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -53,9 +61,15 @@ router.post("/login", async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Incorrect password" });
     }
+
+    // Generate new session token → invalidates previous device login
+    const token = generateToken(user._id);
+    user.currentSessionToken = token;
+    await user.save();
+
     res.status(200).json({
       message: "Login successful",
-      token: generateToken(user._id),
+      token,
       user: {
         id: user._id,
         username: user.username,
@@ -67,4 +81,5 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
 export default router;

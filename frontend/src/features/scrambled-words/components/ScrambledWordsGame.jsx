@@ -18,6 +18,7 @@ export default function ScrambledWordsGame() {
   const [message, setMessage] = useState("");
   const [showWin, setShowWin] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [timerActive, setTimerActive] = useState(false);
   const navigate = useNavigate();
 
   // ------------------------------------------
@@ -55,6 +56,8 @@ export default function ScrambledWordsGame() {
   // Timer logic
   // ------------------------------------------
   useEffect(() => {
+    if (!timerActive) return; // ⛔ Do NOT start until instructions close
+
     if (timer <= 0) {
       setShowWin(true);
       return;
@@ -65,7 +68,7 @@ export default function ScrambledWordsGame() {
     }, 1000);
 
     return () => clearInterval(id);
-  }, [timer]);
+  }, [timer, timerActive]);
 
   // ------------------------------------------
   // Select letter
@@ -373,7 +376,10 @@ export default function ScrambledWordsGame() {
             </p>
 
             <button
-              onClick={() => setShowInfo(false)}
+              onClick={() => {
+                setShowInfo(false);
+                setTimerActive(true); // ▶️ Start timer only now
+              }}
               className="mt-4 h-10 w-full rounded-full bg-[#8f6d3b] font-bold text-white transition hover:opacity-90 active:scale-95"
             >
               OK

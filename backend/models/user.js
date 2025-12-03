@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  currentSessionToken: {
+    type: String,
+    default: null,
+  },
 });
 
 export default mongoose.model("User", userSchema);
