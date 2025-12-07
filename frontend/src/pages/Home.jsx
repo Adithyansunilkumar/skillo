@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import Header from "../components/Header";
 import GameCard from "../components/GameCard";
-import DisclaimerPopup from "../components/DisclaimerPopup";
 import { useNavigate } from "react-router-dom";
 import trophy from "../assets/trophy.svg";
 import stars from "../assets/stars.svg";
@@ -54,7 +53,6 @@ const Home = () => {
 
   const [topPlayers, setTopPlayers] = useState([]);
   const [allPlayers, setAllPlayers] = useState([]);
-  const [openDisclaimer, setOpenDisclaimer] = useState(false);
 
   useEffect(() => {
     const loadTopPlayers = async () => {
@@ -96,12 +94,6 @@ const Home = () => {
           <h2 className="text-2xl font-bold text-zinc-900 md:text-3xl">
             Play For Prizes
           </h2>
-          <button
-            onClick={() => setOpenDisclaimer(true)}
-            className="mt-3 font-medium text-purple-700 underline"
-          >
-            Rules
-          </button>
           <p className="mt-2 w-9/10 text-center text-zinc-600">
             The more you play, the more points you earn. Top player win cash!
           </p>
@@ -175,10 +167,6 @@ const Home = () => {
           )}
         </div>
       </main>
-      <DisclaimerPopup
-        open={openDisclaimer}
-        onClose={() => setOpenDisclaimer(false)}
-      />
     </div>
   );
 };

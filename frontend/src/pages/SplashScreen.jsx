@@ -1,23 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import DisclaimerPopup from "../components/DisclaimerPopup";
 
 export default function SplashScreen() {
   const navigate = useNavigate();
-  const [openDisclaimer, setOpenDisclaimer] = useState(false);
-
-  useEffect(() => {
-    setOpenDisclaimer(true); // AUTO POPUP
-  }, []);
 
   return (
     <div className="relative flex h-svh w-full flex-col overflow-x-hidden bg-purple-50 font-sans sm:h-[820px]">
-      {/* Modal */}
-      <DisclaimerPopup
-        open={openDisclaimer}
-        onClose={() => setOpenDisclaimer(false)}
-      />
-
       {/* Main container */}
       <div className="relative z-10 flex h-svh flex-col items-center justify-between p-4 sm:h-[700px]">
         <div className="flex w-full max-w-lg flex-col items-center">
@@ -75,14 +63,6 @@ export default function SplashScreen() {
               steadily.
             </p>
           </div>
-
-          {/* RULES Button */}
-          <button
-            onClick={() => setOpenDisclaimer(true)}
-            className="mt-4 font-medium text-purple-700 underline"
-          >
-            View Rules
-          </button>
         </div>
 
         {/* Get Started button */}
